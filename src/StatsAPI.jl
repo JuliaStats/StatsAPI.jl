@@ -1,0 +1,3 @@
+module StatsAPI
+
+end # module
