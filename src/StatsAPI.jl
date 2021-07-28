@@ -18,4 +18,11 @@ function pairwise end
 # of the default definition.
 function pairwise! end
 
+"""
+    nobs(dataset)
+
+Return the number of observations in the dataset. 
+"""
+function nobs end
+
 end # module
