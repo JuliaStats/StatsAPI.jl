@@ -1,5 +1,17 @@
 module StatsAPI
 
+include("regressionmodel.jl")
+include("statisticalmodel.jl")
+
+"""
+    params(model)
+
+Return all parameters of a model.
+"""
+params(model) = error("params is not defined for $(typeof(model))")
+
+function params! end
+
 #    pairwise(f, x[, y])
 #
 # Return a matrix holding the result of applying `f` to all possible pairs
