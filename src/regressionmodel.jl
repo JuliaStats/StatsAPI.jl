@@ -46,7 +46,6 @@ function modelmatrix end
 Return `X'X` where `X` is the model matrix of `model`.
 This function will return a pre-computed matrix stored in `model` if possible.
 """
-function crossmodelmatrix end
 crossmodelmatrix(model::RegressionModel) = (x = modelmatrix(model); Symmetric(x' * x))
 
 """
