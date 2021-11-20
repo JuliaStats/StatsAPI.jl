@@ -10,14 +10,14 @@ abstract type StatisticalModel end
 
 Return the coefficients of the model.
 """
-coef(model::StatisticalModel) = error("coef is not defined for $(typeof(model)).")
+function coef end
 
 """
     coefnames(model::StatisticalModel)
 
 Return the names of the coefficients.
 """
-coefnames(model::StatisticalModel) = error("coefnames is not defined for $(typeof(model)).")
+function coefnames end
 
 """
     coeftable(model::StatisticalModel; level::Real=0.95)
@@ -29,14 +29,14 @@ The returned `CoefTable` object implements the
 [Tables.jl](https://github.com/JuliaData/Tables.jl/) interface, and can be
 converted e.g. to a `DataFrame` via `using DataFrames; DataFrame(coeftable(model))`.
 """
-coeftable(model::StatisticalModel) = error("coeftable is not defined for $(typeof(model)).")
+function coeftable end
 
 """
     confint(model::StatisticalModel; level::Real=0.95)
 
 Compute confidence intervals for coefficients, with confidence level `level` (by default 95%).
 """
-confint(model::StatisticalModel) = error("confint is not defined for $(typeof(model)).")
+function confint end
 
 """
     deviance(model::StatisticalModel)
@@ -45,30 +45,28 @@ Return the deviance of the model relative to a reference, which is usually when 
 the saturated model. It is equal, *up to a constant*, to ``-2 \\log L``, with ``L``
 the likelihood of the model.
 """
-deviance(model::StatisticalModel) = error("deviance is not defined for $(typeof(model)).")
+function deviance end
 
 """
     islinear(model::StatisticalModel)
 
 Indicate whether the model is linear.
 """
-islinear(model::StatisticalModel) = error("islinear is not defined for $(typeof(model)).")
+function islinear end
 
 """
     nulldeviance(model::StatisticalModel)
 
 Return the deviance of the null model, that is the one including only the intercept.
 """
-nulldeviance(model::StatisticalModel) =
-    error("nulldeviance is not defined for $(typeof(model)).")
+function nulldeviance end
 
 """
     loglikelihood(model::StatisticalModel)
 
 Return the log-likelihood of the model.
 """
-loglikelihood(model::StatisticalModel) =
-    error("loglikelihood is not defined for $(typeof(model)).")
+function loglikelihood end
 
 """
     loglikelihood(model::StatisticalModel)
@@ -76,8 +74,7 @@ loglikelihood(model::StatisticalModel) =
 Return the log-likelihood of the null model corresponding to `model`.
 This is usually the model containing only the intercept.
 """
-nullloglikelihood(model::StatisticalModel) =
-    error("nullloglikelihood is not defined for $(typeof(model)).")
+function nullloglikelihood end
 
 """
     loglikelihood(model::StatisticalModel, ::Colon)
@@ -87,16 +84,14 @@ In other words, this is the vector of the pointwise log-likelihood contributions
 
 In general, `sum(loglikehood(model, :)) == loglikelihood(model)`.
 """
-loglikelihood(model::StatisticalModel, ::Colon) =
-    error("loglikelihood(model::StatisticalModel, ::Colon) is not defined for $(typeof(model)).")
+function loglikelihood end
 
 """
     loglikelihood(model::StatisticalModel, observation)
 
 Return the contribution of `observation` to the log-likelihood of `model`.
 """
-loglikelihood(model::StatisticalModel, observation) =
-    error("loglikelihood(model::StatisticalModel, observation) is not defined for $(typeof(model)).")
+function loglikelihood end
 
 """
     score(model::StatisticalModel)
@@ -104,7 +99,7 @@ loglikelihood(model::StatisticalModel, observation) =
 Return the score of the model, that is the gradient of the
 log-likelihood with respect to the coefficients.
 """
-score(model::StatisticalModel) = error("score is not defined for $(typeof(model)).")
+function score end
 
 """
     nobs(model::StatisticalModel)
@@ -114,7 +109,7 @@ when using this information, as the definition of an independent observation may
 depending on the model, on the format used to pass the data, on the sampling plan
 (if specified), etc.
 """
-nobs(model::StatisticalModel) = error("nobs is not defined for $(typeof(model)).")
+function nobs end
 
 """
     dof(model::StatisticalModel)
@@ -122,21 +117,21 @@ nobs(model::StatisticalModel) = error("nobs is not defined for $(typeof(model)).
 Return the number of degrees of freedom consumed in the model, including
 when applicable the intercept and the distribution's dispersion parameter.
 """
-dof(model::StatisticalModel) = error("dof is not defined for $(typeof(model)).")
+function dof end
 
 """
     mss(model::StatisticalModel)
 
 Return the model sum of squares.
 """
-mss(model::StatisticalModel) = error("mss is not defined for $(typeof(model)).")
+function mss end
 
 """
     rss(model::StatisticalModel)
 
 Return the residual sum of squares of the model.
 """
-rss(model::StatisticalModel) = error("rss is not defined for $(typeof(model)).")
+function rss end
 
 """
     informationmatrix(model::StatisticalModel; expected::Bool = true)
@@ -144,46 +139,45 @@ rss(model::StatisticalModel) = error("rss is not defined for $(typeof(model)).")
 Return the information matrix of the model. By default the Fisher information matrix
 is returned, while the observed information matrix can be requested with `expected = false`.
 """
-informationmatrix(model::StatisticalModel; expected::Bool=true) =
-    error("informationmatrix is not defined for $(typeof(model)).")
+function informationmatrix end
 
 """
     stderror(model::StatisticalModel)
 
 Return the standard errors for the coefficients of the model.
 """
-stderror(model::StatisticalModel) = sqrt.(diag(vcov(model)))
+function stderror end
 
 """
     vcov(model::StatisticalModel)
 
 Return the variance-covariance matrix for the coefficients of the model.
 """
-vcov(model::StatisticalModel) = error("vcov is not defined for $(typeof(model)).")
+function vcov end
 
 """
     weights(model::StatisticalModel)
 
 Return the weights used in the model.
 """
-weights(model::StatisticalModel) = error("weights is not defined for $(typeof(model)).")
+function weights end
 
 """
     isfitted(model::StatisticalModel)
 
 Indicate whether the model has been fitted.
 """
-isfitted(model::StatisticalModel) = error("isfitted is not defined for $(typeof(model)).")
+function isfitted end
 
 """
 Fit a statistical model.
 """
-fit(model::StatisticalModel, args...) = error("fit is not defined for $(typeof(model)).")
+function fit end
 
 """
 Fit a statistical model in-place.
 """
-fit!(model::StatisticalModel, args...) = error("fit! is not defined for $(typeof(model)).")
+function fit! end
 
 """
     aic(model::StatisticalModel)
@@ -192,6 +186,7 @@ Akaike's Information Criterion, defined as ``-2 \\log L + 2k``, with ``L`` the l
 of the model, and `k` its number of consumed degrees of freedom
 (as returned by [`dof`](@ref)).
 """
+function aic end
 aic(model::StatisticalModel) = -2loglikelihood(model) + 2dof(model)
 
 """
@@ -202,6 +197,7 @@ defined as ``-2 \\log L + 2k + 2k(k-1)/(n-k-1)``, with ``L`` the likelihood of t
 ``k`` its number of consumed degrees of freedom (as returned by [`dof`](@ref)),
 and ``n`` the number of observations (as returned by [`nobs`](@ref)).
 """
+function aic end
 function aicc(model::StatisticalModel)
     k = dof(model)
     n = nobs(model)
@@ -216,6 +212,7 @@ the likelihood of the model,  ``k`` its number of consumed degrees of freedom
 (as returned by [`dof`](@ref)), and ``n`` the number of observations
 (as returned by [`nobs`](@ref)).
 """
+function bic end
 bic(model::StatisticalModel) = -2loglikelihood(model) + dof(model)*log(nobs(model))
 
 """
@@ -227,7 +224,7 @@ Coefficient of determination (R-squared).
 For a linear model, the R² is defined as ``ESS/TSS``, with ``ESS`` the explained sum of squares
 and ``TSS`` the total sum of squares.
 """
-r2(model::StatisticalModel) = error("r2/r² is not defined for $(typeof(model)).")
+function r2 end
 
 const r² = r2
 
@@ -241,6 +238,6 @@ For linear models, the adjusted R² is defined as ``1 - (1 - (1-R^2)(n-1)/(n-p))
 the coefficient of determination, ``n`` the number of observations, and ``p`` the number of
 coefficients (including the intercept). This definition is generally known as the Wherry Formula I.
 """
-adjr2(model::StatisticalModel) = error("adjr2 is not defined for $(typeof(model)).")
+function adjr2 end
 
 const adjr² = adjr2
