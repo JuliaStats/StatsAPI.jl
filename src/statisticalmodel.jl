@@ -185,10 +185,38 @@ Fit a statistical model in-place.
 """
 fit!(model::StatisticalModel, args...) = error("fit! is not defined for $(typeof(model)).")
 
-# Defined and documented for `StatisticalModel` in StatsBase
-function aic end
-function aicc end
-function bic end
+"""
+    aic(model::StatisticalModel)
+
+Akaike's Information Criterion, defined as ``-2 \\log L + 2k``, with ``L`` the likelihood
+of the model, and `k` its number of consumed degrees of freedom
+(as returned by [`dof`](@ref)).
+"""
+aic(model::StatisticalModel) = -2loglikelihood(model) + 2dof(model)
+
+"""
+    aicc(model::StatisticalModel)
+
+Corrected Akaike's Information Criterion for small sample sizes (Hurvich and Tsai 1989),
+defined as ``-2 \\log L + 2k + 2k(k-1)/(n-k-1)``, with ``L`` the likelihood of the model,
+``k`` its number of consumed degrees of freedom (as returned by [`dof`](@ref)),
+and ``n`` the number of observations (as returned by [`nobs`](@ref)).
+"""
+function aicc(model::StatisticalModel)
+    k = dof(model)
+    n = nobs(model)
+    -2loglikelihood(model) + 2k + 2k*(k+1)/(n-k-1)
+end
+
+"""
+    bic(model::StatisticalModel)
+
+Bayesian Information Criterion, defined as ``-2 \\log L + k \\log n``, with ``L``
+the likelihood of the model,  ``k`` its number of consumed degrees of freedom
+(as returned by [`dof`](@ref)), and ``n`` the number of observations
+(as returned by [`nobs`](@ref)).
+"""
+bic(model::StatisticalModel) = -2loglikelihood(model) + dof(model)*log(nobs(model))
 
 """
     r2(model::StatisticalModel)
