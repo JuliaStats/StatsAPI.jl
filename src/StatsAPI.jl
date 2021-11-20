@@ -1,5 +1,17 @@
 module StatsAPI
 
+include("statisticalmodel.jl")
+include("regressionmodel.jl")
+
+"""
+    params(model)
+
+Return all parameters of a model.
+"""
+function params end
+
+function params! end
+
 #    pairwise(f, x[, y])
 #
 # Return a matrix holding the result of applying `f` to all possible pairs
