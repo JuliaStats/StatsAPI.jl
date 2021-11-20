@@ -63,35 +63,28 @@ function nulldeviance end
 
 """
     loglikelihood(model::StatisticalModel)
+    loglikelihood(model::StatisticalModel, observation)
 
 Return the log-likelihood of the model.
-"""
-function loglikelihood end
 
-"""
-    loglikelihood(model::StatisticalModel)
+With an `observation` argument, return the contribution of `observation` to the
+log-likelihood of `model`.
 
-Return the log-likelihood of the null model corresponding to `model`.
-This is usually the model containing only the intercept.
-"""
-function nullloglikelihood end
-
-"""
-    loglikelihood(model::StatisticalModel, ::Colon)
-
-Return a vector of each observation's contribution to the log-likelihood of the model.
-In other words, this is the vector of the pointwise log-likelihood contributions.
+If `observation` is a `Colon`, return a vector of each observation's contribution
+to the log-likelihood of the model. In other words, this is the vector of the
+pointwise log-likelihood contributions.
 
 In general, `sum(loglikehood(model, :)) == loglikelihood(model)`.
 """
 function loglikelihood end
 
 """
-    loglikelihood(model::StatisticalModel, observation)
+    nullloglikelihood(model::StatisticalModel)
 
-Return the contribution of `observation` to the log-likelihood of `model`.
+Return the log-likelihood of the null model corresponding to `model`.
+This is usually the model containing only the intercept.
 """
-function loglikelihood end
+function nullloglikelihood end
 
 """
     score(model::StatisticalModel)
@@ -186,7 +179,6 @@ Akaike's Information Criterion, defined as ``-2 \\log L + 2k``, with ``L`` the l
 of the model, and `k` its number of consumed degrees of freedom
 (as returned by [`dof`](@ref)).
 """
-function aic end
 aic(model::StatisticalModel) = -2loglikelihood(model) + 2dof(model)
 
 """
@@ -197,7 +189,6 @@ defined as ``-2 \\log L + 2k + 2k(k-1)/(n-k-1)``, with ``L`` the likelihood of t
 ``k`` its number of consumed degrees of freedom (as returned by [`dof`](@ref)),
 and ``n`` the number of observations (as returned by [`nobs`](@ref)).
 """
-function aic end
 function aicc(model::StatisticalModel)
     k = dof(model)
     n = nobs(model)
@@ -212,7 +203,6 @@ the likelihood of the model,  ``k`` its number of consumed degrees of freedom
 (as returned by [`dof`](@ref)), and ``n`` the number of observations
 (as returned by [`nobs`](@ref)).
 """
-function bic end
 bic(model::StatisticalModel) = -2loglikelihood(model) + dof(model)*log(nobs(model))
 
 """
