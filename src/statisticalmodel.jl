@@ -231,3 +231,10 @@ coefficients (including the intercept). This definition is generally known as th
 function adjr2 end
 
 const adjr² = adjr2
+
+"""
+    summarize(model::StatisticalModel)
+
+Compute summary statistics for the model.
+"""
+function summarize end
