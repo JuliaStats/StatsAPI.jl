@@ -134,12 +134,15 @@ is returned, while the observed information matrix can be requested with `expect
 """
 function informationmatrix end
 
+function stderror end
+
 """
     stderror(model::StatisticalModel)
 
 Return the standard errors for the coefficients of the model.
 """
-function stderror end
+stderror(model::StatisticalModel) = sqrt.(diag(vcov(model)))
+
 
 """
     vcov(model::StatisticalModel)
