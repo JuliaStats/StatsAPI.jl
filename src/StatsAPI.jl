@@ -1,5 +1,7 @@
 module StatsAPI
 
+using LinearAlgebra
+
 include("statisticalmodel.jl")
 include("regressionmodel.jl")
 
