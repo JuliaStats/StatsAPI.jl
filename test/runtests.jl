@@ -2,6 +2,7 @@ using Test, StatsAPI
 
 @testset "StatsAPI" begin
 
-# Nothing to test currently apart from checking that package can be loaded
+include("regressionmodel.jl")
+include("statisticalmodel.jl")
 
 end # @testset "StatsAPI"

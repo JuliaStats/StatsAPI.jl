@@ -255,7 +255,7 @@ function r2(model::StatisticalModel, variant::Symbol)
         dev0 = nulldeviance(model)
         1 - dev/dev0
     else
-        error("variant must be one of $(join(loglikbased, ", ")) or :devianceratio")
+        throw(ArgumentError("variant must be one of $(join(loglikbased, ", ")) or :devianceratio"))
     end
 end
 
@@ -298,7 +298,7 @@ function adjr2(model::StatisticalModel, variant::Symbol)
         dev0 = nulldeviance(model)
         1 - (dev*(n-1))/(dev0*(n-k))
     else
-        error("variant must be one of :McFadden or :devianceratio")
+        throw(ArgumentError("variant must be one of :McFadden or :devianceratio"))
     end
 end
 
