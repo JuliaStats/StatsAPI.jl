@@ -93,3 +93,16 @@ function predict! end
 Return the residual degrees of freedom of the model.
 """
 function dof_residual end
+
+"""
+    reconstruct(model::RegressionModel, newY)
+
+Reconstruct explanatory variables from `model` given new response values `newY`.
+"""
+function reconstruct end
+
+"""
+    reconstruct!
+In-place version of [`reconstruct`](@ref).
+"""
+function reconstruct! end
