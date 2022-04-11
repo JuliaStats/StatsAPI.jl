@@ -205,6 +205,8 @@ the likelihood of the model,  ``k`` its number of consumed degrees of freedom
 """
 bic(model::StatisticalModel) = -2loglikelihood(model) + dof(model)*log(nobs(model))
 
+function r2 end
+
 """
     r2(model::StatisticalModel)
     r²(model::StatisticalModel)
@@ -214,7 +216,7 @@ Coefficient of determination (R-squared).
 For a linear model, the R² is defined as ``ESS/TSS``, with ``ESS`` the explained sum of squares
 and ``TSS`` the total sum of squares.
 """
-function r2 end
+r2(model::StatisticalModel)
 
 """
     r2(model::StatisticalModel, variant::Symbol)
@@ -261,6 +263,8 @@ end
 
 const r² = r2
 
+function adjr2 end
+
 """
     adjr2(model::StatisticalModel)
     adjr²(model::StatisticalModel)
@@ -271,7 +275,7 @@ For linear models, the adjusted R² is defined as ``1 - (1 - (1-R^2)(n-1)/(n-p))
 the coefficient of determination, ``n`` the number of observations, and ``p`` the number of
 coefficients (including the intercept). This definition is generally known as the Wherry Formula I.
 """
-function adjr2 end
+adjr2(model::StatisticalModel)
 
 """
     adjr2(model::StatisticalModel, variant::Symbol)
