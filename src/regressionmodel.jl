@@ -95,9 +95,11 @@ Return the residual degrees of freedom of the model.
 function dof_residual end
 
 """
-    reconstruct(model::RegressionModel, newY)
+    reconstruct(model::RegressionModel[, newY])
 
-Reconstruct explanatory variables from `model` given new response values `newY`.
+Reconstruct explanatory variables from `model`.
+An object with new response values `newX` can be supplied, which should have
+the same type and structure as the output of [`predict(model)`](@ref).
 """
 function reconstruct end
 
