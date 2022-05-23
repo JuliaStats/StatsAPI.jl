@@ -57,7 +57,7 @@ function islinear end
 """
     nulldeviance(model::StatisticalModel)
 
-Return the deviance of the null model, which is obtained by dropping all
+Return the deviance of the null model, obtained by dropping all
 independent variables present in `model`.
 
 If `model` includes an intercept, the null model is the one with only the intercept;
@@ -85,7 +85,7 @@ function loglikelihood end
 """
     nullloglikelihood(model::StatisticalModel)
 
-Return the log-likelihood of the null model, which is obtained by dropping all
+Return the log-likelihood of the null model, obtained by dropping all
 independent variables present in `model`.
 
 If `model` includes an intercept, the null model is the one with only the intercept;
