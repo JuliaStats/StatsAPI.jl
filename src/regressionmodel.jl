@@ -109,3 +109,11 @@ function reconstruct end
 In-place version of [`reconstruct`](@ref).
 """
 function reconstruct! end
+
+"""
+    offset(model::RegressionModel)
+
+Return the offset used in the model, i.e. the term added to the linear predictor with
+known coefficient 1.
+"""
+function offset end
