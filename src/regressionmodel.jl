@@ -46,7 +46,7 @@ function modelmatrix end
 Return `X'X` where `X` is the model matrix of `model`.
 This function will return a pre-computed matrix stored in `model` if possible.
 """
-crossmodelmatrix(model::RegressionModel) = (x = modelmatrix(model); Symmetric(x' * x))
+crossmodelmatrix(model::RegressionModel; kwarg...) = (x = modelmatrix(model; kwarg...); Symmetric(x' * x))
 
 """
     leverage(model::RegressionModel)

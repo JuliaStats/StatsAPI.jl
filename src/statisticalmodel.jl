@@ -313,4 +313,15 @@ function adjr2(model::StatisticalModel, variant::Symbol)
     end
 end
 
+
+"""
+    momentmatrix(model::StatisticalModel)
+    
+Return the moment matrix. 
+
+For linear regression models `lm`, the moment matrix is residual(lm)*momentmatrix(lm). 
+
+"""
+function momentmatrix end
+
 const adjr² = adjr2
