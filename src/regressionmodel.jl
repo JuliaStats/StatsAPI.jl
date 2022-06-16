@@ -37,8 +37,8 @@ function meanresponse end
     modelmatrix(model::RegressionModel; weighted::Bool=false)
 
 Return the model matrix (a.k.a. the design matrix) or, if `weighted=true` the weighted 
-model matrix, i.e, X'sqrt.(W), where `W` is the diagonal matrix whose elements are 
-the model weights. 
+model matrix, i.e. `X' * sqrt.(W)`, where `X` is the model matrix and
+`W` is the diagonal matrix whose elements are the model weights. 
 """
 function modelmatrix(model::RegressionModel; weighted::Bool=false) end
 
