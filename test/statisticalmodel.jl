@@ -13,7 +13,6 @@ StatsAPI.deviance(::MyStatisticalModel) = 25
 StatsAPI.nulldeviance(::MyStatisticalModel) = 40
 StatsAPI.dof(::MyStatisticalModel) = 5
 StatsAPI.nobs(::MyStatisticalModel) = 100
-StatsAPI.momentmatrix(::MyStatisticalModel) = [1 2; 3 4; 5 6; 7 8]
 
 @testset "StatisticalModel" begin
     m = MyStatisticalModel()
