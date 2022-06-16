@@ -34,19 +34,26 @@ Return the mean of the response.
 function meanresponse end
 
 """
-    modelmatrix(model::RegressionModel)
+    modelmatrix(model::RegressionModel; weighted::Bool=false)
 
-Return the model matrix (a.k.a. the design matrix).
+Return the model matrix (a.k.a. the design matrix) or, if `weighted=true` the weighted 
+model matrix, i.e, X'sqrt.(W), where `W` is the diagonal matrix whose elements are 
+the model weights. 
 """
-function modelmatrix end
+function modelmatrix(model::RegressionModel; weighted::Bool=false) 
+end
 
 """
-    crossmodelmatrix(model::RegressionModel)
+    crossmodelmatrix(model::RegressionModel; weighted::Bool=false)
 
-Return `X'X` where `X` is the model matrix of `model`.
+Return `X'X` where `X` is the model matrix of `model` or, if `weighted=true`, `X'WX`, 
+where `W` is the diagonal matrix whose elements are  the model weights. 
 This function will return a pre-computed matrix stored in `model` if possible.
 """
-crossmodelmatrix(model::RegressionModel; kwarg...) = (x = modelmatrix(model; kwarg...); Symmetric(x' * x))
+function crossmodelmatrix(model::RegressionModel; weighted::Bool=false) 
+    x = weighted ? modelmatrix(model; weighted=weighted) : modelmatrix(model)
+    return Symmetric(x' * x)
+end
 
 """
     leverage(model::RegressionModel)

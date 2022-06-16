@@ -320,7 +320,7 @@ const adjr² = adjr2
     
 Return the matrix containing the estimating equation.
 
-For linear regression models, the moment matrix is given by u*X, where u is the vector of residuals and X is the model matrix.
+For linear regression models, the moment matrix is given by `u*X`, where `u` is the vector of residuals and `X` is the model matrix.
 
 """
 function momentmatrix end
