@@ -45,7 +45,7 @@ function modelmatrix(model::RegressionModel; weighted::Bool=false) end
 """
     crossmodelmatrix(model::RegressionModel; weighted::Bool=false)
 
-Return `X'X` where `X` is the model matrix of `model` or, if `weighted=true`, `X'WX`, 
+Return `X'X` where `X` is the model/design matrix of `model` or, if `weighted=true`, `X'WX`, 
 where `W` is the diagonal matrix whose elements are the model weights. 
 This function will return a pre-computed matrix stored in `model` if possible.
 """
