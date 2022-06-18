@@ -36,9 +36,9 @@ function meanresponse end
 """
     modelmatrix(model::RegressionModel; weighted::Bool=false)
 
-Return the model matrix (a.k.a. the design matrix) or, if `weighted=true` the weighted 
-model matrix, i.e. `X' * sqrt.(W)`, where `X` is the model matrix and
-`W` is the diagonal matrix whose elements are the model weights. 
+Return the model matrix (design matrix) or, if `weighted=true` the weighted 
+model matrix, i.e. `X * sqrt.(W)`, where `X` is the model matrix and
+`W` is the diagonal matrix whose elements are the [model weights](@ref weights(::StatisticalModel)). 
 """
 function modelmatrix(model::RegressionModel; weighted::Bool=false) end
 
@@ -46,7 +46,7 @@ function modelmatrix(model::RegressionModel; weighted::Bool=false) end
     crossmodelmatrix(model::RegressionModel; weighted::Bool=false)
 
 Return `X'X` where `X` is the model/design matrix of `model` or, if `weighted=true`, `X'WX`, 
-where `W` is the diagonal matrix whose elements are the model weights. 
+where `W` is the diagonal matrix whose elements are the [model weights](@ref weights(::StatisticalModel)). 
 This function will return a pre-computed matrix stored in `model` if possible.
 """
 function crossmodelmatrix(model::RegressionModel; weighted::Bool=false) 
@@ -71,11 +71,13 @@ of each data point.
 function cooksdistance end
 
 """
-    residuals(model::RegressionModel)
+    residuals(model::RegressionModel; weighted::Bool=false)
 
-Return the residuals of the model.
+Return the residuals of the model or, if `weighted=true`, the residuals multiplied by
+the square root of the [model weights](@ref weights(::StatisticalModel)). 
+
 """
-function residuals end
+function residuals(model::RegressionModel; weighted::Bool=false) end
 
 """
     predict(model::RegressionModel, [newX])

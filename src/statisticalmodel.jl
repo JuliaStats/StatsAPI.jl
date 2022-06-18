@@ -317,10 +317,21 @@ const adjr² = adjr2
 
 """
     momentmatrix(model::StatisticalModel)
-    
-Return the matrix containing the estimating equation.
 
-For linear regression models, the moment matrix is given by `u*X`,
-where `u` is the vector of residuals and `X` is the model matrix.
+Return the matrix containing the empirical moments defining the estimated parameters.
+
+For likelihood-based models, `momentmatrix` returns the log-score, i.e. the gradient
+of the log-likelihood evaluated at each observation. For semiparametric models, each row
+of the `(n×k)` matrix returned by `momentmatrix` is `m(Zᵢ, β̂)`, where `m(⋅, ⋅)`
+is a vector-valued function evaluated at the estimated parameter `β̂` and `Zᵢ` is the 
+vector of data for entity `i`. The vector-valued function satisfies `∑ᵢm(Zᵢ, β̂) = 0`.
+
+For linear and generalized linear models, the parameters of interest are the coefficients
+of the linear predictor. The moment matrix of a linear model is given by `u.*X`,
+where `u` is the vector of residuals and `X` is the model matrix. The moment matrix of
+a generalized linear model with link function `g`, the moment matrix is `X'e`, where `e`
+is given by `Y-g⁻¹(X'β̂)` where `X` is the model matrix, `Y` is the model response, and
+`β̂` is the vector of estimated coefficients. 
 """
 function momentmatrix end
+
