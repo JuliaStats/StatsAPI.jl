@@ -162,6 +162,15 @@ Return the weights used in the model.
 """
 function weights end
 
+
+"""
+    hasintercept(model::StatisticalModel)
+
+Return a Boolean indicating whether the model has an intercept
+"""
+function hasintercept end
+
+
 """
     isfitted(model::StatisticalModel)
 
@@ -314,3 +323,6 @@ function adjr2(model::StatisticalModel, variant::Symbol)
 end
 
 const adjr² = adjr2
+
+        
+      
