@@ -117,3 +117,18 @@ Return the offset used in the model, i.e. the term added to the linear predictor
 known coefficient 1.
 """
 function offset end
+
+"""
+    linearpredictor(model::RegressionModel)
+
+Return the model's linear predictor, `Xβ` where `X` is the model matrix and `β` is the
+vector of coefficients, or `Xβ + offset` if the model was fit with an offset.
+"""
+function linearpredictor end
+
+"""
+    linearpredictor!(storage, model::RegressionModel)
+
+In-place version of [`linearpredictor`](@ref), storing the result in `storage`.
+"""
+function linearpredictor! end
