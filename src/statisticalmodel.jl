@@ -329,7 +329,7 @@ vector of data for entity `i`. The vector-valued function satisfies ``\\sum_{i=1
 For linear and generalized linear models, the parameters of interest are the coefficients
 of the linear predictor. The moment matrix of a linear model is given by `u.*X`,
 where `u` is the vector of residuals and `X` is the model matrix. The moment matrix of
-a generalized linear model with link function `g`, the moment matrix is `X'e`, where `e`
+a a generalized linear model with link function `g` is `X'e`, where `e`
 is given by ``Y-g^{-1}(X'b)`` where `X` is the model matrix, `Y` is the model response, and
 `b` is the vector of estimated coefficients. 
 """
