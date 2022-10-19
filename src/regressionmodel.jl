@@ -40,7 +40,7 @@ Return the model matrix (design matrix) or, if `weighted=true` the weighted
 model matrix, i.e. `X * sqrt.(W)`, where `X` is the model matrix and
 `W` is the diagonal matrix whose elements are the [model weights](@ref weights(::StatisticalModel)). 
 """
-function modelmatrix(model::RegressionModel; weighted::Bool=false) end
+function modelmatrix end
 
 """
     crossmodelmatrix(model::RegressionModel; weighted::Bool=false)
