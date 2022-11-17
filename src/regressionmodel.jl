@@ -36,17 +36,17 @@ function meanresponse end
 """
     modelmatrix(model::RegressionModel; weighted::Bool=false)
 
-Return the model matrix (a.k.a. the design matrix) or, if `weighted=true` the weighted 
-model matrix, i.e. `X' * sqrt.(W)`, where `X` is the model matrix and
-`W` is the diagonal matrix whose elements are the model weights. 
+Return the model matrix (design matrix) or, if `weighted=true` the weighted 
+model matrix, i.e. `X * sqrt.(W)`, where `X` is the model matrix and
+`W` is the diagonal matrix whose elements are the [model weights](@ref weights(::StatisticalModel)). 
 """
-function modelmatrix(model::RegressionModel; weighted::Bool=false) end
+function modelmatrix end
 
 """
     crossmodelmatrix(model::RegressionModel; weighted::Bool=false)
 
-Return `X'X` where `X` is the model matrix of `model` or, if `weighted=true`, `X'WX`, 
-where `W` is the diagonal matrix whose elements are the model weights. 
+Return `X'X` where `X` is the model/design matrix of `model` or, if `weighted=true`, `X'WX`, 
+where `W` is the diagonal matrix whose elements are the [model weights](@ref weights(::StatisticalModel)). 
 This function will return a pre-computed matrix stored in `model` if possible.
 """
 function crossmodelmatrix(model::RegressionModel; weighted::Bool=false) 
@@ -71,11 +71,13 @@ of each data point.
 function cooksdistance end
 
 """
-    residuals(model::RegressionModel)
+    residuals(model::RegressionModel; weighted::Bool=false)
 
-Return the residuals of the model.
+Return the residuals of the model or, if `weighted=true`, the residuals multiplied by
+the square root of the [model weights](@ref weights(::StatisticalModel)). 
+
 """
-function residuals end
+function residuals(model::RegressionModel; weighted::Bool=false) end
 
 """
     predict(model::RegressionModel, [newX])
@@ -120,6 +122,21 @@ function reconstruct! end
     offset(model::RegressionModel)
 
 Return the offset used in the model, i.e. the term added to the linear predictor with
-known coefficient 1.
+known coefficient 1, or `nothing` if the model was not fit with an offset.
 """
 function offset end
+
+"""
+    linearpredictor(model::RegressionModel)
+
+Return the model's linear predictor, `Xβ` where `X` is the model matrix and `β` is the
+vector of coefficients, or `Xβ + offset` if the model was fit with an offset.
+"""
+function linearpredictor end
+
+"""
+    linearpredictor!(storage, model::RegressionModel)
+
+In-place version of [`linearpredictor`](@ref), storing the result in `storage`.
+"""
+function linearpredictor! end
