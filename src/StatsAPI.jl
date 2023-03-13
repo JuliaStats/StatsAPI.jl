@@ -32,4 +32,11 @@ function pairwise end
 # of the default definition.
 function pairwise! end
 
+"""
+    HypothesisTest
+
+Abstract supertype for all statistical hypothesis tests.
+"""
+abstract type HypothesisTest end
+
 end # module
