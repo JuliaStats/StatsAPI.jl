@@ -32,4 +32,11 @@ function pairwise end
 # of the default definition.
 function pairwise! end
 
+"""
+    pvalue(test)
+
+Compute the p-value for a given significance test.
+"""
+function pvalue end
+
 end # module
