@@ -39,4 +39,11 @@ Abstract supertype for all statistical hypothesis tests.
 """
 abstract type HypothesisTest end
 
+"""
+    pvalue(test)
+
+Compute the p-value for a given significance test.
+"""
+function pvalue end
+
 end # module
