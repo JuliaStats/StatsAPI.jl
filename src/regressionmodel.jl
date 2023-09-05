@@ -132,3 +132,43 @@ function linearpredictor end
 In-place version of [`linearpredictor`](@ref), storing the result in `storage`.
 """
 function linearpredictor! end
+
+"""
+    vif(m::RegressionModel)
+
+Compute the variance inflation factor (VIF).
+
+Returns a vector of inflation factors computed for each coefficient except
+for the intercept.
+In other words, the corresponding coefficients are `coefnames(m)[2:end]`.
+
+The [variance inflation factor (VIF)](https://en.wikipedia.org/wiki/Variance_inflation_factor) measures
+the increase in the variance of a parameter's estimate in a model with multiple parameters relative to
+the variance of a parameter's estimate in a model containing only that parameter.
+
+See also [`coefnames`](@ref), [`gvif`](@ref).
+
+!!! warning
+    This method will fail if there is (numerically) perfect multicollinearity,
+    i.e. rank deficiency. In that case though, the VIF
+    is not particularly informative anyway.
+"""
+function vif(model::RegressionModel)
+    mm = Statistics.cov2cor!(vcov(model), stderror(model))
+    # TODO: replace with hasintercept() when implemented (xref #17)
+    all(==(1), view(modelmatrix(model), :, 1)) ||
+        throw(ArgumentError("VIF only defined for models with an intercept term"))
+    mm = @view mm[2:end, 2:end]
+    size(mm, 2) > 1 ||
+        throw(ArgumentError("VIF not meaningful for models with only one non-intercept term"))
+    # NB: The correlation matrix is positive definite and hence invertible
+    #     unless there is perfect rank deficiency, hence the warning.
+    # so we want diag(inv(mm)) but directly computing inverses is bad.
+    # that said, these are typically small-ish matrices and this is Simple.
+    return diag(inv(mm))
+end
+
+# This generic function is owned by StatsModels.jl, which is the sole provider
+# of the default definition. StatsModels needs to own the default definition
+# because it depends on the @formula interface.
+function gvif end
