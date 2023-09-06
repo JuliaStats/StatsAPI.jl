@@ -159,9 +159,9 @@ function vif end
 Compute the generalized variance inflation factor (GVIF).
 
 If `scale=true`, then each GVIF is scaled by the degrees of freedom
-for (number of coefficients associated with) the predictor: ``GVIF^(1 / (2*df))``
+for (number of coefficients associated with) the predictor: ``GVIF^(1 / (2*df))``.
 
-The [generalized variance inflation factor (VIF)](https://doi.org/10.2307/2290467)
+The [GVIF](https://doi.org/10.2307/2290467)
 measures the increase in the variance of a (group of) parameter's estimate in a model
 with multiple parameters relative to the variance of a parameter's estimate in a
 model containing only that parameter. For continuous, numerical predictors, the GVIF
