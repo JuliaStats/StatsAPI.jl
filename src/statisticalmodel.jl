@@ -163,13 +163,6 @@ Return the weights used in the model.
 function weights end
 
 """
-    hasintercept(model::StatisticalModel)
-
-Indicate whether the model has an intercept.
-"""
-function hasintercept end
-
-"""
     isfitted(model::StatisticalModel)
 
 Indicate whether the model has been fitted.
