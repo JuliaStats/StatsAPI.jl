@@ -154,23 +154,22 @@ See also [`coefnames`](@ref).
     is not particularly informative anyway.
 """
 function vif(model::RegressionModel)
-    # copy in case vcov returns a view / reference to internal data structures
-    mm = Statistics.cov2cor!(copy(vcov(model)), stderror(model))
-    # TODO: replace with hasintercept() when implemented (xref #17)
+    vc = vcov(model)
     modelmat = modelmatrix(model)
-    # TODO: replace with eachcol() when support for Julia 1.0 is dropped
-    i = findfirst(Base.Fix1(all, isone), [view(modelmat, :, col) for col in axes(modelmat, 2)])
-    i === nothing &&
+    # requires Julia 1.2
+    Base.require_one_based_indexing(vc, modelmat)
+    intercept = findfirst(Base.Fix1(all, isone),
+                          [view(modelmat, :, col) for col in axes(modelmat, 2)])
+    isnothing(intercept) &&
         throw(ArgumentError("VIF is only defined for models with an intercept term"))
-    # Translate the column index in the model matrix to the corresponding indices in the
-    # correlation matrix. This removes the constant offset assumption, but there is still
-    # an assumption of linear indexing with unit stride.
-    j1 = firstindex(mm, 1) - i + 1
-    j2 = firstindex(mm, 2) - i + 1
-    m = view(mm, axes(mm, 1) .!= j1, axes(mm, 2) .!= j2)
+
+    # TODO: replace with hasintercept() when implemented (xref #17)
+    all(==(1), view(modelmatrix(model), :, 1)) ||
+        throw(ArgumentError("VIF only defined for models with an intercept term"))
+    m = view(vc, axes(vc, 1) .!= intercept, axes(vc, 2) .!= intercept)
     size(m, 2) > 1 ||
         throw(ArgumentError("VIF not meaningful for models with only one non-intercept term"))
     # NB: The correlation matrix is positive definite and hence invertible
-    #     unless there is perfect rank deficiency, hence the warning.
+    #     unless there is perfect rank deficiency, hence the warning in the docstring.
     return diag(inv(m))
 end
