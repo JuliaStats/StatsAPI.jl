@@ -162,7 +162,6 @@ Return the weights used in the model.
 """
 function weights end
 
-
 """
     hasintercept(model::StatisticalModel)
 
