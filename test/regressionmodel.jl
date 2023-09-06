@@ -1,7 +1,7 @@
 module TestRegressionModel
 
 using Test, LinearAlgebra, StatsAPI
-using StatsAPI: RegressionModel, crossmodelmatrix
+using StatsAPI: RegressionModel, hasintercept, crossmodelmatrix
 
 struct MyRegressionModel <: RegressionModel
 end
