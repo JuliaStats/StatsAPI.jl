@@ -37,3 +37,4 @@ StatsAPI.nobs(::MyStatisticalModel) = 100
 end
 
 end # module TestStatisticalModel
+
