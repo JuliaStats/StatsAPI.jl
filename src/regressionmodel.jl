@@ -157,7 +157,9 @@ function vif(model::RegressionModel)
     # copy in case vcov returns a view / reference to internal data structures
     mm = Statistics.cov2cor!(copy(vcov(model)), stderror(model))
     # TODO: replace with hasintercept() when implemented (xref #17)
-    i = findfirst(Base.Fix1(all, isone), eachcol(modelmatrix(model)))
+    modelmat = modelmatrix(model)
+    # TODO: replace with eachcol() when support for Julia 1.0 is dropped
+    i = findfirst(Base.Fix1(all, isone), (view(modelmat, :, col) for col in axes(modelmat, 2)))
     i === nothing &&
         throw(ArgumentError("VIF is only defined for models with an intercept term"))
     # Translate the column index in the model matrix to the corresponding indices in the
