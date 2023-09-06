@@ -165,7 +165,7 @@ function weights end
 """
     hasintercept(model::StatisticalModel)
 
-Return a Boolean indicating whether the model has an intercept
+Indicate whether the model has an intercept.
 """
 function hasintercept end
 
