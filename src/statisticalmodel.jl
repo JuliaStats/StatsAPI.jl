@@ -169,7 +169,6 @@ Indicate whether the model has an intercept.
 """
 function hasintercept end
 
-
 """
     isfitted(model::StatisticalModel)
 
