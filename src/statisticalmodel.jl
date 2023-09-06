@@ -321,6 +321,3 @@ function adjr2(model::StatisticalModel, variant::Symbol)
 end
 
 const adjr² = adjr2
-
-        
-      
