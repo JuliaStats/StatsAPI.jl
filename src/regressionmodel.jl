@@ -41,6 +41,13 @@ Return the model matrix (a.k.a. the design matrix).
 function modelmatrix end
 
 """
+    hasintercept(model::RegressionModel)
+
+Indicate whether the model has an intercept.
+"""
+function hasintercept end
+
+"""
     crossmodelmatrix(model::RegressionModel)
 
 Return `X'X` where `X` is the model matrix of `model`.
