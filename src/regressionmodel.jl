@@ -171,7 +171,5 @@ function vif(model::RegressionModel)
         throw(ArgumentError("VIF not meaningful for models with only one non-intercept term"))
     # NB: The correlation matrix is positive definite and hence invertible
     #     unless there is perfect rank deficiency, hence the warning.
-    # so we want diag(inv(mm)) but directly computing inverses is bad.
-    # that said, these are typically small-ish matrices and this is Simple.
     return diag(inv(m))
 end
