@@ -154,26 +154,24 @@ See also [`coefnames`](@ref), [`gvif`](@ref).
     is not particularly informative anyway.
 """
 function vif(model::RegressionModel)
-    mm = Statistics.cov2cor!(vcov(model), stderror(model))
+    # copy in case vcov returns a view / reference to internal data structures
+    # this also allows us to guarantee 1-based indexing
+    mm = Statistics.cov2cor!(Matrix(vcov(model)), stderror(model))
     # TODO: replace with hasintercept() when implemented (xref #17)
-    i = findfirst(Base.Fix1(all, isone), eachcol(modelmatrix(X)))
+    i = findfirst(Base.Fix1(all, isone), eachcol(modelmatrix(model)))
     i === nothing &&
         throw(ArgumentError("VIF is only defined for models with an intercept term"))
     # Translate the column index in the model matrix to the corresponding indices in the
-    # correlation matrix
+    # correlation matrix. This removes the constant offset assumption, but there is still
+    # an assumption of linear indexing with unit stride.
     j1 = firstindex(mm, 1) - i + 1
     j2 = firstindex(mm, 2) - i + 1
     m = view(mm, axes(mm, 1) .!= j1, axes(mm, 2) .!= j2)
-    size(mm, 2) > 1 ||
+    size(m, 2) > 1 ||
         throw(ArgumentError("VIF not meaningful for models with only one non-intercept term"))
     # NB: The correlation matrix is positive definite and hence invertible
     #     unless there is perfect rank deficiency, hence the warning.
     # so we want diag(inv(mm)) but directly computing inverses is bad.
     # that said, these are typically small-ish matrices and this is Simple.
-    return diag(inv(mm))
+    return diag(inv(m))
 end
-
-# This generic function is owned by StatsModels.jl, which is the sole provider
-# of the default definition. StatsModels needs to own the default definition
-# because it depends on the @formula interface.
-function gvif end
