@@ -138,38 +138,44 @@ function linearpredictor! end
 
 Compute the variance inflation factor (VIF).
 
-Returns a vector of inflation factors computed for each coefficient except
-for the intercept.
-In other words, the corresponding coefficients are `coefnames(m)[2:end]`.
-
 The [VIF](https://en.wikipedia.org/wiki/Variance_inflation_factor) measures
 the increase in the variance of a parameter's estimate in a model with multiple parameters relative to
 the variance of a parameter's estimate in a model containing only that parameter.
 
-See also [`coefnames`](@ref).
+See also [`gvif`](@ref).
 
 !!! warning
     This method will fail if there is (numerically) perfect multicollinearity,
     i.e. rank deficiency. In that case though, the VIF
     is not particularly informative anyway.
 """
-function vif(model::RegressionModel)
-    vc = vcov(model)
-    modelmat = modelmatrix(model)
-    # requires Julia 1.2
-    Base.require_one_based_indexing(vc, modelmat)
-    intercept = findfirst(Base.Fix1(all, isone),
-                          [view(modelmat, :, col) for col in axes(modelmat, 2)])
-    isnothing(intercept) &&
-        throw(ArgumentError("VIF is only defined for models with an intercept term"))
+function vif end
+# This generic function is owned by StatsModels.jl, which is the sole provider
+# of the default definition.
 
-    # TODO: replace with hasintercept() when implemented (xref #17)
-    all(==(1), view(modelmatrix(model), :, 1)) ||
-        throw(ArgumentError("VIF only defined for models with an intercept term"))
-    m = view(vc, axes(vc, 1) .!= intercept, axes(vc, 2) .!= intercept)
-    size(m, 2) > 1 ||
-        throw(ArgumentError("VIF not meaningful for models with only one non-intercept term"))
-    # NB: The correlation matrix is positive definite and hence invertible
-    #     unless there is perfect rank deficiency, hence the warning in the docstring.
-    return diag(inv(m))
-end
+"""
+    gvif(m::RegressionModel; scale=false)
+
+Compute the generalized variance inflation factor (GVIF).
+
+If `scale=true`, then each GVIF is scaled by the degrees of freedom
+for (number of coefficients associated with) the predictor: ``GVIF^(1 / (2*df))``
+
+The [generalized variance inflation factor (VIF)](https://doi.org/10.2307/2290467)
+measures the increase in the variance of a (group of) parameter's estimate in a model
+with multiple parameters relative to the variance of a parameter's estimate in a
+model containing only that parameter. For continuous, numerical predictors, the GVIF
+is the same as the VIF, but for categorical predictors, the GVIF provides a single
+number for the entire group of contrast-coded coefficients associated with a categorical
+predictor.
+
+See also [`vif`](@ref).
+
+## References
+
+Fox, J., & Monette, G. (1992). Generalized Collinearity Diagnostics.
+Journal of the American Statistical Association, 87(417), 178. doi:10.2307/2290467
+"""
+function gvif end
+# This generic function is owned by StatsModels.jl, which is the sole provider
+# of the default definition.
