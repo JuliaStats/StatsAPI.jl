@@ -155,8 +155,7 @@ See also [`coefnames`](@ref), [`gvif`](@ref).
 """
 function vif(model::RegressionModel)
     # copy in case vcov returns a view / reference to internal data structures
-    # this also allows us to guarantee 1-based indexing
-    mm = Statistics.cov2cor!(Matrix(vcov(model)), stderror(model))
+    mm = Statistics.cov2cor!(copy(vcov(model)), stderror(model))
     # TODO: replace with hasintercept() when implemented (xref #17)
     i = findfirst(Base.Fix1(all, isone), eachcol(modelmatrix(model)))
     i === nothing &&
