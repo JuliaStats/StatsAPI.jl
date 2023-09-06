@@ -142,7 +142,7 @@ Returns a vector of inflation factors computed for each coefficient except
 for the intercept.
 In other words, the corresponding coefficients are `coefnames(m)[2:end]`.
 
-The [variance inflation factor (VIF)](https://en.wikipedia.org/wiki/Variance_inflation_factor) measures
+The [VIF](https://en.wikipedia.org/wiki/Variance_inflation_factor) measures
 the increase in the variance of a parameter's estimate in a model with multiple parameters relative to
 the variance of a parameter's estimate in a model containing only that parameter.
 
@@ -156,9 +156,14 @@ See also [`coefnames`](@ref), [`gvif`](@ref).
 function vif(model::RegressionModel)
     mm = Statistics.cov2cor!(vcov(model), stderror(model))
     # TODO: replace with hasintercept() when implemented (xref #17)
-    all(==(1), view(modelmatrix(model), :, 1)) ||
-        throw(ArgumentError("VIF only defined for models with an intercept term"))
-    mm = @view mm[2:end, 2:end]
+    i = findfirst(Base.Fix1(all, isone), eachcol(modelmatrix(X)))
+    i === nothing &&
+        throw(ArgumentError("VIF is only defined for models with an intercept term"))
+    # Translate the column index in the model matrix to the corresponding indices in the
+    # correlation matrix
+    j1 = firstindex(mm, 1) - i + 1
+    j2 = firstindex(mm, 2) - i + 1
+    m = view(mm, axes(mm, 1) .!= j1, axes(mm, 2) .!= j2)
     size(mm, 2) > 1 ||
         throw(ArgumentError("VIF not meaningful for models with only one non-intercept term"))
     # NB: The correlation matrix is positive definite and hence invertible
