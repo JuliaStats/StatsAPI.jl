@@ -170,11 +170,14 @@ Indicate whether the model has been fitted.
 function isfitted end
 
 """
+    fit(model::StatisticalModel)
+
 Fit a statistical model.
 """
 function fit end
 
 """
+    fit!(model::StatisticalModel)
 Fit a statistical model in-place.
 """
 function fit! end
