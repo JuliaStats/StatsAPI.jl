@@ -32,4 +32,21 @@ function pairwise end
 # of the default definition.
 function pairwise! end
 
+"""
+    HypothesisTest
+
+Abstract supertype for all statistical hypothesis tests.
+Subtypes must implement [`pvalue`](@ref) at a minimum and may also
+implement functions such as [`confint`](@ref), [`nobs`](@ref), and
+[`dof`](@ref) as appropriate.
+"""
+abstract type HypothesisTest end
+
+"""
+    pvalue(test)
+
+Compute the p-value for a given significance test.
+"""
+function pvalue end
+
 end # module
