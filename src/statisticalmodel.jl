@@ -233,7 +233,7 @@ Pseudo-coefficient of determination (pseudo R-squared).
 
 For nonlinear models, one of several pseudo R² definitions must be chosen via `variant`.
 Supported variants are:
-- `:MacFadden` (a.k.a. likelihood ratio index), defined as ``1 - \\log (L)/\\log (L_0)``;
+- `:McFadden` (a.k.a. likelihood ratio index), defined as ``1 - \\log (L)/\\log (L_0)``;
 - `:CoxSnell`, defined as ``1 - (L_0/L)^{2/n}``;
 - `:Nagelkerke`, defined as ``(1 - (L_0/L)^{2/n})/(1 - L_0^{2/n})``.
 - `:devianceratio`, defined as ``1 - D/D_0``.
@@ -290,7 +290,7 @@ adjr2(model::StatisticalModel)
 
 Adjusted pseudo-coefficient of determination (adjusted pseudo R-squared).
 For nonlinear models, one of the several pseudo R² definitions must be chosen via `variant`.
-The only currently supported variants are `:MacFadden`, defined as ``1 - (\\log (L) - k)/\\log (L0)`` and
+The only currently supported variants are `:McFadden`, defined as ``1 - (\\log (L) - k)/\\log (L0)`` and
 `:devianceratio`, defined as ``1 - (D/(n-k))/(D_0/(n-1))``.
 In these formulas, ``L`` is the likelihood of the model, ``L0`` that of the null model
 (the model including only the intercept), ``D`` is the deviance of the model,
