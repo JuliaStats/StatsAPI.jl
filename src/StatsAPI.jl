@@ -1,6 +1,71 @@
 module StatsAPI
 
-using LinearAlgebra
+using LinearAlgebra: Symmetric, diag
+
+# https://github.com/JuliaLang/julia/pull/50105
+@static if VERSION >= v"1.11.0-DEV.469"
+    # statisticalmodel.jl
+    eval(Expr(
+        :public,
+        :StatisticalModel,
+        :coef,
+        :coefnames,
+        :coeftable,
+        :confint,
+        :deviance,
+        :islinear,
+        :nulldeviance,
+        :loglikelihood,
+        :nullloglikelihood,
+        :score,
+        :nobs,
+        :dof,
+        :mss,
+        :rss,
+        :informationmatrix,
+        :stderror,
+        :vcov,
+        :weights,
+        :isfitted,
+        :fit,
+        :fit!,
+        :aic,
+        :aicc,
+        :bic,
+        :r2,
+        :r²,
+        :adjr2,
+        :adjr²,
+    ))
+
+    # regressionmodel.jl
+    eval(Expr(
+        :public,
+        :RegressionModel,
+        :fitted,
+        :response,
+        :responsename,
+        :meanresponse,
+        :modelmatrix,
+        :crossmodelmatrix,
+        :leverage,
+        :cooksdistance,
+        :residuals,
+        :predict,
+        :predict!,
+        :dof_residual,
+        :reconstruct,
+        :reconstruct!,
+        :offset,
+        :linearpredictor,
+        :linearpredictor!,
+        :vif,
+        :gvif,
+    ))
+
+    # StatsAPI.jl
+    eval(Expr(:public, :params, :params!, :pairwise, :pairwise!, :HypothesisTest, :pvalue))
+end
 
 include("statisticalmodel.jl")
 include("regressionmodel.jl")
