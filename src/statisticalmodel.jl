@@ -314,3 +314,41 @@ function adjr2(model::StatisticalModel, variant::Symbol)
 end
 
 const adjr² = adjr2
+
+"""
+    ConvergenceException(iterations::Int, lastchange::Real=NaN, tolerance::Real=NaN,
+                         message::String="")
+
+The fitting procedure failed to converge in `iterations` number of iterations. Typically
+this is because the `lastchange` between the objective in the final and penultimate
+iterations was greater than the specified `tolerance`. Further information can be provided
+by `message`.
+"""
+struct ConvergenceException{T<:Real} <: Exception
+    iterations::Int
+    lastchange::T
+    tolerance::T
+    message::String
+
+    function ConvergenceException(iterations, lastchange=NaN, tolerance=NaN, message="")
+        if tolerance > lastchange
+            throw(ArgumentError("can't construct `ConvergenceException` with change " *
+                                "less than tolerance; got $lastchange and $tolerance"))
+        end
+        T = promote_type(typeof(lastchange), typeof(tolerance))
+        return new{T}(iterations, lastchange, tolerance, message)
+    end
+end
+
+function Base.showerror(io::IO, ce::ConvergenceException)
+    print(io, "failure to converge after ", ce.iterations, " iterations")
+    if !isnan(ce.lastchange)
+        print(io, "; last change between iterations (", ce.lastchange, ") was greater ",
+              "than tolerance (", ce.tolerance, ")")
+    end
+    print(io, '.')
+    if !isempty(ce.message)
+        print(io, ' ', ce.message)
+    end
+    return nothing
+end
