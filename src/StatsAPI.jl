@@ -102,8 +102,8 @@ function pairwise! end
 
 Abstract supertype for all statistical hypothesis tests.
 Subtypes must implement [`pvalue`](@ref) at a minimum and may also
-implement functions such as [`confint`](@ref), [`nobs`](@ref), and
-[`dof`](@ref) as appropriate.
+implement functions such as [`teststatistic`](@ref), [`confint`](@ref),
+[`nobs`](@ref), and [`dof`](@ref) as appropriate.
 """
 abstract type HypothesisTest end
 
@@ -113,5 +113,12 @@ abstract type HypothesisTest end
 Compute the p-value for a given significance test.
 """
 function pvalue end
+
+"""
+    teststatistic(test)
+
+Return the test statistic for a given hypothesis test.
+"""
+function teststatistic end
 
 end # module
