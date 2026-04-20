@@ -1,7 +1,8 @@
 module TestStatisticalModel
 
 using Test, StatsAPI
-using StatsAPI: StatisticalModel, stderror, aic, aicc, bic, r2, r², adjr2, adjr²
+using StatsAPI: ConvergenceException, StatisticalModel, stderror, aic, aicc, bic,
+                r2, r², adjr2, adjr²
 
 struct MyStatisticalModel <: StatisticalModel
 end
@@ -34,6 +35,18 @@ StatsAPI.nobs(::MyStatisticalModel) = 100
 
     @test r2 === r²
     @test adjr2 === adjr²
+end
+
+@testset "ConvergenceException" begin
+    fail = "failure to converge after 10 iterations"
+    chgtol = "last change between iterations (0.2) was greater than tolerance (0.1)"
+    msg = "Try changing maxiter."
+    @test sprint(showerror, ConvergenceException(10)) == "$fail."
+    @test sprint(showerror, ConvergenceException(10, 0.2, 0.1)) == "$fail; $chgtol."
+    @test sprint(showerror, ConvergenceException(10, 0.2, 0.1, msg)) == "$fail; $chgtol. $msg"
+    err = @test_throws ArgumentError ConvergenceException(10, 0.1, 0.2)
+    @test err.value.msg == string("can't construct `ConvergenceException` with change ",
+                                  "less than tolerance; got 0.1 and 0.2")
 end
 
 end # module TestStatisticalModel
